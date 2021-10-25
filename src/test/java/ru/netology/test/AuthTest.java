@@ -1,8 +1,13 @@
+package ru.netology.test;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import ru.netology.data.CreateNewUser;
+import ru.netology.data.DataGenerate;
+import ru.netology.data.RegistrationDto;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -12,13 +17,11 @@ public class AuthTest {
 
     static RegistrationDto activeUser;
     static RegistrationDto blockedUser;
-    static String invalidValue;
 
     @BeforeAll
     static void createUser() {
-        activeUser = CreateNewUser.setUpAll("ru", "active");
-        blockedUser = CreateNewUser.setUpAll("fi-FI", "blocked");
-        invalidValue = "SuperUser";
+        activeUser = CreateNewUser.createUser( "active");
+        blockedUser = CreateNewUser.createUser("blocked");
     }
 
     @BeforeEach
@@ -45,21 +48,21 @@ public class AuthTest {
     @Test
     void shouldBeActiveUserAndInvalidPassword() {
         $(By.xpath("//input[@name='login']")).val(activeUser.getLogin());
-        $(By.xpath("//input[@name='password']")).val(invalidValue);
+        $(By.xpath("//input[@name='password']")).val(DataGenerate.generatePassword());
         $(By.xpath("//span[text()='Продолжить']")).click();
         $(By.xpath("//div[@class='notification__content']"))
                 .shouldBe(visible)
-                .shouldHave(text("Ошибка!"));
+                .shouldHave(text("Неверно указан логин или пароль"));
     }
 
     @Test
     void shouldBeActiveUserAndInvalidLogin() {
-        $(By.xpath("//input[@name='login']")).val(invalidValue);
+        $(By.xpath("//input[@name='login']")).val(DataGenerate.generateLogin());
         $(By.xpath("//input[@name='password']")).val(activeUser.getPassword());
         $(By.xpath("//span[text()='Продолжить']")).click();
         $(By.xpath("//div[@class='notification__content']"))
                 .shouldBe(visible)
-                .shouldHave(text("Ошибка!"));
+                .shouldHave(text("Неверно указан логин или пароль"));
     }
 
     @Test

@@ -13,20 +13,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.rest-assured:rest-assured:4.4.0'
-    implementation 'com.github.javafaker:javafaker:1.0.2'
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
     testImplementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'com.codeborne:selenide:5.25.0-selenium-4.0.0'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'org.projectlombok:lombok:1.18.22'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-
 }
 
 test {
